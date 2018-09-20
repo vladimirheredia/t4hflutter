@@ -3,6 +3,59 @@ import 'dart:async';
 
 void main() => runApp(new Tech4HoodApp());
 
+class Utilities {
+  static List<Widget> menuWidgets(BuildContext context,List<MenuItemModel> menuItems) {
+    return List<Widget>.generate(
+      menuItems.length,
+      (int index) => GestureDetector(
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Utilities.getPageFromId(menuItems[index].id)),
+            );
+        },
+        child: Container(
+              color: menuItems[index].bgColor,
+              padding: EdgeInsets.all(40.0),
+              child: Column(
+                children: <Widget>[
+                    Image.asset('assets/' + menuItems[index].image, width: 40.0, height: 40.0, fit: BoxFit.contain),
+                    Container(
+                    margin: EdgeInsets.only(top: 10.0),
+                    child: Text(menuItems[index].label, style: TextStyle(color: Colors.white)),
+                  )
+                ]
+              ),
+            )
+      ),
+    );
+  }
+
+  static StatefulWidget getPageFromId(String id) {
+
+    StatefulWidget pageWidget;
+    switch(id) {
+      case 'events':
+      pageWidget = EventsPage(key: null, title: 'Events');
+      break;
+      case 'social':
+      pageWidget = SocialMediaPage(key: null, title: 'Social Media');
+      break;
+      case 'apps':
+      pageWidget = OurAppsPage(key: null, title: 'Our Apps');
+      break;
+      case 'media':
+      pageWidget = MediaPage(key: null, title: 'Media');
+      break;
+      case 'misc':
+      pageWidget = EventsPage(key: null, title: 'Events');
+      break;
+    }
+
+    return pageWidget;
+  }
+}
+
 class Tech4HoodApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
@@ -124,56 +177,6 @@ class _HomePageState extends State<HomePage> {
     )
   ];
 
-  StatefulWidget getPageFromId(String id) {
-
-    StatefulWidget pageWidget;
-    switch(id) {
-      case 'events':
-      pageWidget = EventsPage(key: null, title: 'Events');
-      break;
-      case 'social':
-      pageWidget = SocialMediaPage(key: null, title: 'Social Media');
-      break;
-      case 'apps':
-      pageWidget = OurAppsPage(key: null, title: 'Our Apps');
-      break;
-      case 'media':
-      pageWidget = MediaPage(key: null, title: 'Media');
-      break;
-      case 'misc':
-      pageWidget = EventsPage(key: null, title: 'Events');
-      break;
-    }
-
-    return pageWidget;
-  }
-
-  List<Widget> menuWidgets() {
-    return List<Widget>.generate(
-      menuItems.length,
-      (int index) => GestureDetector(
-        onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => getPageFromId(menuItems[index].id)),
-            );
-        },
-        child: Container(
-              color: menuItems[index].bgColor,
-              padding: EdgeInsets.all(40.0),
-              child: Column(
-                children: <Widget>[
-                    Image.asset('assets/' + menuItems[index].image, width: 40.0, height: 40.0, fit: BoxFit.contain),
-                    Container(
-                    margin: EdgeInsets.only(top: 10.0),
-                    child: Text(menuItems[index].label, style: TextStyle(color: Colors.white)),
-                  )
-                ]
-              ),
-            )
-      ),
-    );
-  }
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -199,7 +202,7 @@ class _HomePageState extends State<HomePage> {
         ),
         body: new ListView(
           shrinkWrap: true,
-          children: menuWidgets(),
+          children: Utilities.menuWidgets(context, menuItems),
         )
       );
   }
@@ -250,6 +253,34 @@ class SocialMediaPage extends StatefulWidget {
 }
 
 class _SocialMediaPageState extends State<SocialMediaPage> {
+
+  List<MenuItemModel> menuItems = <MenuItemModel>[
+    new MenuItemModel(
+      'Facebook',
+      'social_facebook.png',
+      Color.fromARGB(255, 51, 79, 141),
+      'fb'
+    ),
+    new MenuItemModel(
+      'Twitter',
+      'social_twitter.png',
+      Color.fromARGB(255, 75, 162, 235),
+      'tw'
+    ),
+    new MenuItemModel(
+      'Instagram',
+      'social_instagram.png',
+      Color.fromARGB(255, 158, 75, 150),
+      'inst'
+    ),
+    new MenuItemModel(
+      'YouTube',
+      'social_youtube.png',
+      Color.fromARGB(255, 233, 25, 33),
+      'yt'
+    )
+  ];
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -260,9 +291,7 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
         ),
         body: new ListView(
           shrinkWrap: true,
-          children: <Text>[
-            Text('hello World', style: new TextStyle(color: Colors.black)),
-          ]
+          children: Utilities.menuWidgets(context, menuItems),
         )
       );
   }
