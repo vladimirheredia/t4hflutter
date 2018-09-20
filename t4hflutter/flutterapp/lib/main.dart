@@ -310,6 +310,27 @@ class OurAppsPage extends StatefulWidget {
 }
 
 class _OurAppsPageState extends State<OurAppsPage> {
+
+  List<MenuItemModel> menuItems = <MenuItemModel>[
+    new MenuItemModel(
+      'Android Apps',
+      'apps_android.png',
+      Color.fromARGB(255, 122, 192, 13),
+      'android'
+    ),
+    new MenuItemModel(
+      'IOS Apps',
+      'apps_ios.png',
+      Color.fromARGB(255, 114, 77, 186),
+      'ios'
+    ),
+    new MenuItemModel(
+      'Web Apps',
+      'apps_web.png',
+      Color.fromARGB(255, 47, 159, 221),
+      'web'
+    )];
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -320,9 +341,7 @@ class _OurAppsPageState extends State<OurAppsPage> {
         ),
         body: new ListView(
           shrinkWrap: true,
-          children: <Text>[
-            Text('hello World', style: new TextStyle(color: Colors.black)),
-          ]
+          children: Utilities.menuWidgets(context, menuItems)
         )
       );
   }
