@@ -34,7 +34,7 @@ class SplashPage extends StatelessWidget {
       new Timer(new Duration(days: 0, hours: 0, minutes: 0, seconds: 2, microseconds: 0, milliseconds: 0), () {
         Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => HomePage()),
+              MaterialPageRoute(builder: (context) => HomePage(key: null, title: 'Tech4Hood',)),
             );
       });
     });
@@ -62,6 +62,15 @@ class SplashPage extends StatelessWidget {
   }
 }
 
+class MenuItemModel extends Object {
+  MenuItemModel(this.label, this.image, this.bgColor, this.id);
+
+  final String label;
+  final Color bgColor;
+  final String image;
+  final String id;
+}
+
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title}) : super(key: key);
 
@@ -80,43 +89,76 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => new _HomePageState();
 }
 
-class MenuItemModel extends Object {
-  MenuItemModel(this.label, this.image, this.bgColor);
-
-  String label;
-  Color bgColor;
-  String image;
-}
-
 class _HomePageState extends State<HomePage> {
 
   List<MenuItemModel> menuItems = <MenuItemModel>[
     new MenuItemModel(
       'Events',
       'calendar_white.png',
-      Color.fromARGB(255, 31, 40, 90)
+      Color.fromARGB(255, 31, 40, 90),
+      'events'
     ),
     new MenuItemModel(
       'Social Media',
       'share_white.png',
-      Color.fromARGB(255, 54, 84, 144)
+      Color.fromARGB(255, 54, 84, 144),
+      'social'
     ),
     new MenuItemModel(
       'Our Apps',
       'phone_white.png',
-      Color.fromARGB(255, 82, 122, 170)
+      Color.fromARGB(255, 82, 122, 170),
+      'apps'
     ),
     new MenuItemModel(
       'Media',
       'next_white.png',
-      Color.fromARGB(255, 127, 177, 210)
+      Color.fromARGB(255, 127, 177, 210),
+      'media'
+    ),
+    new MenuItemModel(
+      'Miscellaneous',
+      'next_white.png',
+      Color.fromARGB(255, 154, 215, 255),
+      'misc'
     )
   ];
+
+  StatefulWidget getPageFromId(String id) {
+
+    StatefulWidget pageWidget;
+    switch(id) {
+      case 'events':
+      pageWidget = EventsPage(key: null, title: 'Events');
+      break;
+      case 'social':
+      pageWidget = SocialMediaPage(key: null, title: 'Social Media');
+      break;
+      case 'apps':
+      pageWidget = OurAppsPage(key: null, title: 'Our Apps');
+      break;
+      case 'media':
+      pageWidget = MediaPage(key: null, title: 'Media');
+      break;
+      case 'misc':
+      pageWidget = EventsPage(key: null, title: 'Events');
+      break;
+    }
+
+    return pageWidget;
+  }
 
   List<Widget> menuWidgets() {
     return List<Widget>.generate(
       menuItems.length,
-      (int index) => Container(
+      (int index) => GestureDetector(
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => getPageFromId(menuItems[index].id)),
+            );
+        },
+        child: Container(
               color: menuItems[index].bgColor,
               padding: EdgeInsets.all(40.0),
               child: Column(
@@ -128,7 +170,8 @@ class _HomePageState extends State<HomePage> {
                   )
                 ]
               ),
-            ),
+            )
+      ),
     );
   }
   @override
@@ -150,13 +193,138 @@ class _HomePageState extends State<HomePage> {
       ),
         appBar: AppBar(
           //automaticallyImplyLeading: false,
-          title: Text('Tech4Hood'),
+          title: Text(widget.title),
           backgroundColor: Color.fromARGB(255, 18, 20, 61),
           
         ),
         body: new ListView(
           shrinkWrap: true,
           children: menuWidgets(),
+        )
+      );
+  }
+}
+
+/* Events Page */
+class EventsPage extends StatefulWidget {
+
+  EventsPage({Key key, this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  _EventsPageState createState() => new _EventsPageState();
+
+}
+
+class _EventsPageState extends State<EventsPage> {
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+        appBar: AppBar(
+          title: Text(widget.title),
+          backgroundColor: Color.fromARGB(255, 18, 20, 61),
+          
+        ),
+        body: new ListView(
+          shrinkWrap: true,
+          children: <Text>[
+            Text('hello World', style: new TextStyle(color: Colors.black)),
+          ]
+        )
+      );
+  }
+}
+
+
+/* Social Media Page */
+class SocialMediaPage extends StatefulWidget {
+
+  SocialMediaPage({Key key, this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  _SocialMediaPageState createState() => new _SocialMediaPageState();
+
+}
+
+class _SocialMediaPageState extends State<SocialMediaPage> {
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+        appBar: AppBar(
+          title: Text(widget.title),
+          backgroundColor: Color.fromARGB(255, 18, 20, 61),
+          
+        ),
+        body: new ListView(
+          shrinkWrap: true,
+          children: <Text>[
+            Text('hello World', style: new TextStyle(color: Colors.black)),
+          ]
+        )
+      );
+  }
+}
+
+/* Our Apps Page */
+class OurAppsPage extends StatefulWidget {
+
+  OurAppsPage({Key key, this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  _OurAppsPageState createState() => new _OurAppsPageState();
+
+}
+
+class _OurAppsPageState extends State<OurAppsPage> {
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+        appBar: AppBar(
+          title: Text(widget.title),
+          backgroundColor: Color.fromARGB(255, 18, 20, 61),
+          
+        ),
+        body: new ListView(
+          shrinkWrap: true,
+          children: <Text>[
+            Text('hello World', style: new TextStyle(color: Colors.black)),
+          ]
+        )
+      );
+  }
+}
+
+/* Media Page */
+class MediaPage extends StatefulWidget {
+
+  MediaPage({Key key, this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  _MediaPageState createState() => new _MediaPageState();
+
+}
+
+class _MediaPageState extends State<MediaPage> {
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+        appBar: AppBar(
+          title: Text(widget.title),
+          backgroundColor: Color.fromARGB(255, 18, 20, 61),
+          
+        ),
+        body: new ListView(
+          shrinkWrap: true,
+          children: <Text>[
+            Text('hello World', style: new TextStyle(color: Colors.black)),
+          ]
         )
       );
   }
